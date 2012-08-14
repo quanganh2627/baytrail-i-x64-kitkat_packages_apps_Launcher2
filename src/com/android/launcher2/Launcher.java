@@ -2550,7 +2550,9 @@ public final class Launcher extends Activity
 
                     if (mWorkspace != null && !springLoaded && !LauncherApplication.isScreenLarge()) {
                         // Hide the workspace scrollbar
-                        mWorkspace.hideScrollingIndicator(true);
+                        if (mWorkspace != null) {
+                            mWorkspace.hideScrollingIndicator(true);
+                        }
                         hideDockDivider();
                     }
                     if (!animationCancelled) {
