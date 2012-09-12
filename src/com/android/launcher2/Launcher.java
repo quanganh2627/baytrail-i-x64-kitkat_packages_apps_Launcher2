@@ -2319,7 +2319,9 @@ public final class Launcher extends Activity
             } else {
                 if (!(itemUnderLongClick instanceof Folder)) {
                     // User long pressed on an item
-                    mWorkspace.startDrag(longClickCellInfo);
+                    if (itemUnderLongClick.getTag() != null) {
+                       mWorkspace.startDrag(longClickCellInfo);
+                    }
                 }
             }
         }
