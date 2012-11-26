@@ -87,6 +87,7 @@
         <activity
             android:name="com.android.launcher2.WallpaperChooser"
             android:theme="@style/Theme.WallpaperPicker"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/pick_wallpaper"
             android:icon="@mipmap/ic_launcher_wallpaper"
             android:finishOnCloseSystemDialogs="true"
