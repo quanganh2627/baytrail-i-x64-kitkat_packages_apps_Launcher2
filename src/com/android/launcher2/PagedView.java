@@ -1464,11 +1464,18 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected int getChildWidth(int index) {
-        // This functions are called enough times that it actually makes a difference in the
-        // profiler -- so just inline the max() here
-        final int measuredWidth = getPageAt(index).getMeasuredWidth();
         final int minWidth = mMinimumWidth;
-        return (minWidth > measuredWidth) ? minWidth : measuredWidth;
+        View child = getPageAt(index);
+        if (child == null) {
+            // when x < cellX or x >= cellX + cellHSpan or y < cellY or y > cellY + cellVSpan
+            // we just return minwidth
+            return minWidth;
+        } else {
+            // This functions are called enough times that it actually makes a difference in the
+            // profiler -- so just inline the max() here
+            final int measuredWidth = child.getMeasuredWidth();
+            return (minWidth > measuredWidth) ? minWidth : measuredWidth;
+        }
     }
 
     int getPageNearestToCenterOfScreen() {
