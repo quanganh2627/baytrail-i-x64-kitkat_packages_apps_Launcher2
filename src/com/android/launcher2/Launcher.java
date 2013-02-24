@@ -1396,10 +1396,6 @@ public final class Launcher extends Activity
 
             Runnable processIntent = new Runnable() {
                 public void run() {
-                    if (mWorkspace == null) {
-                        // Can be cases where mWorkspace is null, this prevents a NPE
-                        return;
-                    }
                     Folder openFolder = mWorkspace.getOpenFolder();
                     // In all these cases, only animate if we're already on home
                     mWorkspace.exitWidgetResizeMode();
