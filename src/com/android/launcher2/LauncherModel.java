@@ -1338,10 +1338,14 @@ public class LauncherModel extends BroadcastReceiver {
                                     switch (container) {
                                     case LauncherSettings.Favorites.CONTAINER_DESKTOP:
                                     case LauncherSettings.Favorites.CONTAINER_HOTSEAT:
-                                        int appFlags = manager.getApplicationInfo(info.getPackageName(), 0).flags;
-                                        boolean is3rdApp = (appFlags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) == 0;
-                                        if (isSafeMode && is3rdApp) {
-                                            break;
+                                        try {
+                                            int appFlags = manager.getApplicationInfo(info.getPackageName(), 0).flags;
+                                            boolean is3rdApp = (appFlags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) == 0;
+                                            if (isSafeMode && is3rdApp) {
+                                                break;
+                                            }
+                                        } catch (NameNotFoundException ex) {
+                                            Log.e(TAG, "package name doesn't exist!");
                                         }
                                         sBgWorkspaceItems.add(info);
                                         break;
