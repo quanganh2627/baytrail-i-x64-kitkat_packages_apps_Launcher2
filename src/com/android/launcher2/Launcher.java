@@ -2953,6 +2953,7 @@ public final class Launcher extends Activity
         // Send an accessibility event to announce the context change
         getWindow().getDecorView()
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        sendBroadcast(new Intent("com.android.launcher.CLOSE_ALL_APPS"));
     }
 
     void showAllApps(boolean animated) {
@@ -2972,6 +2973,7 @@ public final class Launcher extends Activity
         // Send an accessibility event to announce the context change
         getWindow().getDecorView()
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
+        sendBroadcast(new Intent("com.android.launcher.SHOW_ALL_APPS"));
     }
 
     void enterSpringLoadedDragMode() {
