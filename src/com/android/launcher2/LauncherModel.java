@@ -578,8 +578,6 @@ public class LauncherModel extends BroadcastReceiver {
         values.put(LauncherSettings.Favorites._ID, item.id);
         item.updateValuesWithCoordinates(values, item.cellX, item.cellY);
 
-        final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
-
         Runnable r = new Runnable() {
             public void run() {
                 String transaction = "DbDebug    Add item (" + item.title + ") to db, id: "
@@ -916,6 +914,7 @@ public class LauncherModel extends BroadcastReceiver {
         synchronized (mLock) {
             if (mLoaderTask != null) {
                 mLoaderTask.stopLocked();
+                mIsLoaderTaskRunning = false;
             }
         }
     }
@@ -1339,6 +1338,15 @@ public class LauncherModel extends BroadcastReceiver {
                                     switch (container) {
                                     case LauncherSettings.Favorites.CONTAINER_DESKTOP:
                                     case LauncherSettings.Favorites.CONTAINER_HOTSEAT:
+                                        try {
+                                            int appFlags = manager.getApplicationInfo(info.getPackageName(), 0).flags;
+                                            boolean is3rdApp = (appFlags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) == 0;
+                                            if (isSafeMode && is3rdApp) {
+                                                break;
+                                            }
+                                        } catch (NameNotFoundException ex) {
+                                            Log.e(TAG, "package name doesn't exist!");
+                                        }
                                         sBgWorkspaceItems.add(info);
                                         break;
                                     default:
