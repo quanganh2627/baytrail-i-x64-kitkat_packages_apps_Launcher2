@@ -30,7 +30,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -163,8 +162,6 @@ public class WallpaperChooserDialogFragment extends DialogFragment implements
                     Context.WALLPAPER_SERVICE);
             wpm.setResource(mImages.get(position));
             Activity activity = getActivity();
-            Display display = activity.getWindowManager().getDefaultDisplay();
-            wpm.suggestDesiredDimensions(display.getWidth(), display.getHeight());
             activity.setResult(Activity.RESULT_OK);
             activity.finish();
         } catch (IOException e) {
