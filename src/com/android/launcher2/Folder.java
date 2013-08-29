@@ -812,6 +812,9 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         int centeredLeft = centerX - width / 2;
         int centeredTop = centerY - height / 2;
 
+        if (mLauncher == null || mLauncher.getWorkspace() == null) {
+            return;
+        }
         int currentPage = mLauncher.getWorkspace().getCurrentPage();
         // In case the workspace is scrolling, we need to use the final scroll to compute
         // the folders bounds.
