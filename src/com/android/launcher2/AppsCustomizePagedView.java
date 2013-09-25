@@ -800,6 +800,9 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (mLauncher == null || mLauncher.getDragController() == null) {
+                    return;
+                }
                 // We don't enter spring-loaded mode if the drag has been cancelled
                 if (mLauncher.getDragController().isDragging()) {
                     // Dismiss the cling
