@@ -655,6 +655,10 @@ public final class Launcher extends Activity
     @Override
     protected void onActivityResult(
             final int requestCode, final int resultCode, final Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_PICK_WALLPAPER) {
+            mWorkspace.setWallpaperDimension();
+            return;
+        }
         if (requestCode == REQUEST_BIND_APPWIDGET) {
             int appWidgetId = data != null ?
                     data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) : -1;
