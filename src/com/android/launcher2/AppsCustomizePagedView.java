@@ -318,7 +318,9 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 
     /** Get the index of the item to restore to if we need to restore the current page. */
     int getSaveInstanceStateIndex() {
-        mSaveInstanceStateItemIndex = getMiddleComponentIndexOnCurrentPage();
+        if (mSaveInstanceStateItemIndex == -1) {
+            mSaveInstanceStateItemIndex = getMiddleComponentIndexOnCurrentPage();
+        }
         return mSaveInstanceStateItemIndex;
     }
 
@@ -798,9 +800,6 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (mLauncher == null || mLauncher.getDragController() == null) {
-                    return;
-                }
                 // We don't enter spring-loaded mode if the drag has been cancelled
                 if (mLauncher.getDragController().isDragging()) {
                     // Dismiss the cling

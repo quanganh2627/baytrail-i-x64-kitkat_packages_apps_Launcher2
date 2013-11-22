@@ -354,9 +354,6 @@ public class LauncherModel extends BroadcastReceiver {
                     // as in Workspace.onDrop. Here, we just add/remove them from the list of items
                     // that are on the desktop, as appropriate
                     ItemInfo modelItem = sBgItemsIdMap.get(itemId);
-                    if (modelItem == null) {
-                        return;
-                    }
                     if (modelItem.container == LauncherSettings.Favorites.CONTAINER_DESKTOP ||
                             modelItem.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
                         switch (modelItem.itemType) {
@@ -950,7 +947,6 @@ public class LauncherModel extends BroadcastReceiver {
         synchronized (mLock) {
             if (mLoaderTask != null) {
                 mLoaderTask.stopLocked();
-                mIsLoaderTaskRunning = false;
             }
         }
     }
