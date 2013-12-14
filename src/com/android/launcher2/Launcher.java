@@ -187,14 +187,6 @@ public final class Launcher extends Activity
     private static final String TOOLBAR_VOICE_SEARCH_ICON_METADATA_NAME =
             "com.android.launcher.toolbar_voice_search_icon";
 
-    // Broadcast to be received to start user activity listening.
-    private static final String CHECK_USER_ACTIVITY_ACTION =
-            "android.intent.action.launcher.user_activity";
-
-    // Broadcast to be sent to user activity listener
-    private static final String USER_ACTIVITY_AVAILABLE_ACTION =
-            "android.intent.action.stk.user_activity_available";
-
     /** The different states that Launcher can be in. */
     private enum State { NONE, WORKSPACE, APPS_CUSTOMIZE, APPS_CUSTOMIZE_SPRING_LOADED };
     private State mState = State.WORKSPACE;
@@ -320,26 +312,6 @@ public final class Launcher extends Activity
     private HideFromAccessibilityHelper mHideFromAccessibilityHelper
         = new HideFromAccessibilityHelper();
 
-    /**
-     * Check to see if user activity is requested.
-     *
-     */
-    private boolean mIsUserActivityRequest = false;
-
-    /**
-     * User activity BroadcastReceiver instance.
-     *
-     */
-    private final BroadcastReceiver mUserActivityIntentReceiver = new BroadcastReceiver () {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(CHECK_USER_ACTIVITY_ACTION)) {
-                mIsUserActivityRequest = intent.getBooleanExtra("STK_USER_ACTIVITY_REQUEST", false);
-                Log.d(TAG, "Receiving STK_USER_ACTIVITY_REQUEST "+ mIsUserActivityRequest);
-            }
-        }
-    };
-
     private Runnable mBuildLayersRunnable = new Runnable() {
         public void run() {
             if (mWorkspace != null) {
@@ -451,8 +423,6 @@ public final class Launcher extends Activity
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(mCloseSystemDialogsReceiver, filter);
-        IntentFilter userActivityfilter = new IntentFilter(CHECK_USER_ACTIVITY_ACTION);
-        registerReceiver(mUserActivityIntentReceiver, userActivityfilter);
 
         updateGlobalIcons();
 
@@ -1615,7 +1585,6 @@ public final class Launcher extends Activity
 
         getContentResolver().unregisterContentObserver(mWidgetObserver);
         unregisterReceiver(mCloseSystemDialogsReceiver);
-        unregisterReceiver(mUserActivityIntentReceiver);
 
         mDragLayer.clearAllResizeFrames();
         ((ViewGroup) mWorkspace.getParent()).removeAllViews();
@@ -1964,7 +1933,6 @@ public final class Launcher extends Activity
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        onUserInteraction(event);
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (event.getKeyCode()) {
                 case KeyEvent.KEYCODE_HOME:
@@ -1982,14 +1950,8 @@ public final class Launcher extends Activity
                     return true;
             }
         }
-        return super.dispatchKeyEvent(event);
-    }
 
-    /** @hide */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        onUserInteraction(event);
-        return super.dispatchTouchEvent(event);
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
@@ -2009,23 +1971,6 @@ public final class Launcher extends Activity
             // Back button is a no-op here, but give at least some feedback for the button press
             mWorkspace.showOutlinesTemporarily();
         }
-    }
-
-    /**
-     * Use to broadcast user activity event intent.
-     */
-    private void onUserInteraction(Object event) {
-        if (mIsUserActivityRequest) {
-            mIsUserActivityRequest = false;
-            Intent intent = new Intent(USER_ACTIVITY_AVAILABLE_ACTION);
-            if (event instanceof KeyEvent) {
-                intent.putExtra("EVENT", "key");
-                intent.putExtra("KEY_CODE", ((KeyEvent)event).getKeyCode());
-            } else {
-                intent.putExtra("EVENT", "touch");
-            }
-            sendBroadcast(intent);
-         }
     }
 
     /**
@@ -2449,9 +2394,7 @@ public final class Launcher extends Activity
             } else {
                 if (!(itemUnderLongClick instanceof Folder)) {
                     // User long pressed on an item
-                    if (itemUnderLongClick.getTag() != null) {
-                        mWorkspace.startDrag(longClickCellInfo);
-                    }
+                    mWorkspace.startDrag(longClickCellInfo);
                 }
             }
         }
@@ -2683,9 +2626,7 @@ public final class Launcher extends Activity
 
                     if (mWorkspace != null && !springLoaded && !LauncherApplication.isScreenLarge()) {
                         // Hide the workspace scrollbar
-                        if (mWorkspace != null) {
-                            mWorkspace.hideScrollingIndicator(true);
-                        }
+                        mWorkspace.hideScrollingIndicator(true);
                         hideDockDivider();
                     }
                     if (!animationCancelled) {
@@ -2935,7 +2876,6 @@ public final class Launcher extends Activity
         // Send an accessibility event to announce the context change
         getWindow().getDecorView()
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-        sendBroadcast(new Intent("com.android.launcher.CLOSE_ALL_APPS"));
     }
 
     void showAllApps(boolean animated) {
@@ -2955,7 +2895,6 @@ public final class Launcher extends Activity
         // Send an accessibility event to announce the context change
         getWindow().getDecorView()
                 .sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
-        sendBroadcast(new Intent("com.android.launcher.SHOW_ALL_APPS"));
     }
 
     void enterSpringLoadedDragMode() {

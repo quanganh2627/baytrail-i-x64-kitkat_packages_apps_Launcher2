@@ -947,7 +947,6 @@ public class LauncherModel extends BroadcastReceiver {
         synchronized (mLock) {
             if (mLoaderTask != null) {
                 mLoaderTask.stopLocked();
-                mIsLoaderTaskRunning = false;
             }
         }
     }
