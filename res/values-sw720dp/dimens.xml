@@ -59,9 +59,9 @@
     <dimen name="dragViewOffsetY">0dp</dimen>
 
 <!-- CellLayout padding land / port-->
-    <dimen name="cell_layout_left_padding_port">4dp</dimen>
-    <dimen name="cell_layout_left_padding_land">4dp</dimen>
-    <dimen name="cell_layout_right_padding_port">4dp</dimen>
+    <dimen name="cell_layout_left_padding_port">44dp</dimen>
+    <dimen name="cell_layout_left_padding_land">130dp</dimen>
+    <dimen name="cell_layout_right_padding_port">44dp</dimen>
     <dimen name="cell_layout_right_padding_land">4dp</dimen>
     <dimen name="cell_layout_top_padding_port">12dp</dimen>
     <dimen name="cell_layout_top_padding_land">12dp</dimen>
@@ -78,10 +78,10 @@
     <dimen name="folder_padding">4dp</dimen>
 
 <!-- Workspace padding -->
-    <dimen name="workspace_left_padding_port">0dp</dimen>
+    <dimen name="workspace_left_padding_port">100dp</dimen>
     <dimen name="workspace_left_padding_land">0dp</dimen>
-    <dimen name="workspace_right_padding_port">0dp</dimen>
-    <dimen name="workspace_right_padding_land">0dp</dimen>
+    <dimen name="workspace_right_padding_port">100dp</dimen>
+    <dimen name="workspace_right_padding_land">100dp</dimen>
 
     <dimen name="workspace_top_padding_port">@dimen/qsb_bar_height_inset</dimen>
     <dimen name="workspace_top_padding_land">@dimen/qsb_bar_height_inset</dimen>
@@ -96,12 +96,12 @@
     <dimen name="workspace_divider_padding_bottom">0dp</dimen>
 
 <!-- Workspace cell size -->
-    <dimen name="workspace_cell_width_land">96dp</dimen>
-    <dimen name="workspace_cell_width_port">96dp</dimen>
+    <dimen name="workspace_cell_width_land">70dp</dimen>
+    <dimen name="workspace_cell_width_port">80dp</dimen>
     <dimen name="workspace_cell_height_land">96dp</dimen>
     <dimen name="workspace_cell_height_port">96dp</dimen>
     <dimen name="workspace_width_gap_land">50dp</dimen>
-    <dimen name="workspace_width_gap_port">0dp</dimen>
+    <dimen name="workspace_width_gap_port">10dp</dimen>
     <dimen name="workspace_height_gap_land">16dp</dimen>
-    <dimen name="workspace_height_gap_port">70dp</dimen>
+    <dimen name="workspace_height_gap_port">55dp</dimen>
 </resources>
